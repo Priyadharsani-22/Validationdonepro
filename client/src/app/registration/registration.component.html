@@ -20,28 +20,40 @@
                   </div>
                 </div>
   
+  
+                  
+  
+               
                 <div class="mb-3">
                   <label for="email" class="form-label ">Email address</label>
-                  <input type="email" name="email" formControlName="email" class="form-control" id="email"
-                    placeholder="name@example.com">
+                  <input type="text" id="email" class="form-control" formControlName="email" placeholder="name@example.com">
+                  
                   <div
-                    *ngIf="itemForm.get('email')?.invalid && (itemForm.get('email')?.dirty || itemForm.get('email')?.touched)"
-                    class="ng-dirty">
-                    <span class="text-danger">Please Enter email.</span>
-                    <span *ngIf="itemForm.errors?.['email']">Not a valid Email</span>
-                  </div>
-  
+                  *ngIf="itemForm.get('email')?.invalid &&  itemForm.get('email')?.touched && itemForm.get('email')?.errors?.['required'] "
+                  class="text-danger">Please Enter E-mail.
+                
                 </div>
-  
+                <small
+                  *ngIf="itemForm.get('email')?.invalid &&  itemForm.get('email')?.dirty && itemForm.get('email')?.errors?.['invalidEmail'] "
+                  class="text-danger">Enter a Valid Email.
+                 
+              </small>
+                </div>
+
                 <div class="mb-3">
-                  <label for="password" class="form-label ">Password</label>
-                  <input type="password" name="password" formControlName="password" class="form-control" id="password"
-                    placeholder="*******">
+                  <label for="password" class="form-label">Password</label>
+                  <input type="password" id="password" class="form-control" formControlName="password" >
+                  
                   <div
-                    *ngIf="itemForm.get('password')?.invalid && (itemForm.get('password')?.dirty || itemForm.get('password')?.touched)"
-                    class="ng-dirty">
-                    <span class="text-danger">Please Enter password.</span>
-                  </div>
+                  *ngIf="itemForm.get('password')?.invalid &&  itemForm.get('password')?.touched && itemForm.get('password')?.errors?.['required'] "
+                  class="text-danger">Password is required
+                
+                </div>
+                <small
+                  *ngIf="itemForm.get('password')?.invalid &&  itemForm.get('password')?.dirty && itemForm.get('password')?.errors?.['invalidPassword'] "
+                  class="text-danger">Password should contain minimum length:8,  1 UPPERCASE, 1 lowercase, 1 digit, 1 special character
+                 
+              </small>
                 </div>
   
                 <div class="mb-3">

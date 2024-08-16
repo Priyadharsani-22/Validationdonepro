@@ -1,11 +1,10 @@
-
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpService } from '../../services/http.service';
 import { AuthService } from '../../services/auth.service';
-
-
+ 
+ 
 @Component({
   selector: 'app-addcargo',
   templateUrl: './addcargo.component.html'
@@ -21,11 +20,11 @@ export class AddcargoComponent implements OnInit {
   driverList:any=[]
   showMessage: any;
   responseMessage: any;
-  constructor(public router:Router, public httpService:HttpService, private formBuilder: FormBuilder, private authService:AuthService) 
+  constructor(public router:Router, public httpService:HttpService, private formBuilder: FormBuilder, private authService:AuthService)
     {
       this.itemForm = this.formBuilder.group({
         content: [this.formModel.username,[ Validators.required]],
-        size: [this.formModel.password,[ Validators.required]],
+        size: [this.formModel.password,[ Validators.required,this.nonNegativeValidator]],
         status: [this.formModel.password,[ Validators.required]],
         pickupAddress: [this.formModel.pickupAddress, [Validators.required]],
         deliveryAddress: [this.formModel.deliveryAddress, [Validators.required]],
@@ -74,7 +73,7 @@ export class AddcargoComponent implements OnInit {
         this.httpService.addCargo(this.itemForm.value).subscribe((data: any) => {
           this.itemForm.reset();
           this.getCargo();
-          
+         
         }, error => {
           // Handle error
           this.showError = true;
@@ -101,7 +100,11 @@ export class AddcargoComponent implements OnInit {
       this.httpService.assignDriver(this.assignModel.driverId,this.assignModel.cargoId).subscribe((data: any) => {
         debugger;
         this.showMessage = true;
-        this.responseMessage=data.message;;
+        this.responseMessage=data.message;
+        const cargo = this.cargList.find((c: { id: any; }) => c.id === this.assignModel.cargoId);
+        if (cargo) {
+          cargo.assigned = true;
+        }
       }, error => {
         // Handle error
         this.showError = true;
@@ -110,8 +113,14 @@ export class AddcargoComponent implements OnInit {
       });;
     }
   }
+  nonNegativeValidator(control:AbstractControl): ValidationErrors | null {
+    const value = control.value;
+    if (value < 1) {
+      return { 'negativeValue': true };
+    }
+    return null;
+  }
   
+ 
 }
-
-
-
+ 

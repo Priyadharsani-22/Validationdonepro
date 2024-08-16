@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { HttpService } from '../../services/http.service';
@@ -19,8 +19,8 @@ export class RegistrationComponent implements OnInit {
   constructor(public router:Router, private httpService:HttpService, private formBuilder: FormBuilder) { 
     
     this.itemForm = this.formBuilder.group({
-      email: [this.formModel.email,[ Validators.required, Validators.email]],
-      password: [this.formModel.password,[ Validators.required]],
+      email: [this.formModel.email,[ Validators.required,this.emailValidator]],
+      password: [this.formModel.password,[ Validators.required,this.passwordValidator]],
       role: [this.formModel.userType,[ Validators.required]],
       username: [this.formModel.username,[ Validators.required]],
   });
@@ -44,5 +44,31 @@ onRegister()
   else{
     this.itemForm.markAllAsTouched();
   }
+}
+emailValidator(control: AbstractControl): { [key: string]: boolean } | null {
+  const email = control.value;
+  const regexPattern = /^[a-z][a-z0-9._%+-]*@[a-z2-9.-]+\.[a-z]{2,4}$/;
+
+
+
+
+
+  if (!regexPattern.test(email)) {
+    return { invalidEmail: true };
+  }
+
+  return null;
+}
+
+passwordValidator(control: AbstractControl): { [key: string]: boolean } | null {
+  const password = control.value;
+  const regexPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+
+
+  if (!regexPattern.test(password)) {
+    return { invalidPassword: true };
+  }
+
+  return null;
 }
 }

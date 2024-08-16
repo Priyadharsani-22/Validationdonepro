@@ -1,6 +1,5 @@
-
-<div class="d-flex justify-content-between mt-4"> 
-
+<div class="d-flex justify-content-between mt-4">
+ 
 </div>
 <div class="row mt-3">
   <div class="card">
@@ -41,7 +40,7 @@
                             <option value="null">Choose Status</option>
                              <option value="Order Assigned">Order Assigned</option>
                              <option value="Order Assigned">On Hold</option>
-                             <option value="Order Assigned">Cancelled</option>
+                             <!-- <option value="Order Assigned">Cancelled</option> -->
                           </select>
                           <!-- <input type="text" name="status"  formControlName="status" [(ngModel)]="formModel.status" class="form-control" id="status" placeholder="status"> -->
                           <div *ngIf="itemForm.controls['status'].invalid && (itemForm.controls['status'].dirty || itemForm.controls['status'].touched)"
@@ -110,7 +109,7 @@
                       </div>
                     </div>
                 </div>
-                  
+                 
                   <div class="col-md-3">
                       <div class="d-grid">
                           <br>
@@ -118,9 +117,9 @@
                         </div>
                   </div>
               </div>
-            
+           
              
-            
+           
              
             </form>
       </div>
@@ -149,17 +148,17 @@
                       <td>{{cargo.size}}</td>
                       <td>{{cargo.status}}</td>
                       <td>
-                          <button data-bs-toggle="modal" (click)="addDriver(cargo)" data-bs-target="#driverModal" class="btn btn-primary">Assign</button>
+                          <button data-bs-toggle="modal" (click)="addDriver(cargo)" data-bs-target="#driverModal" class="btn btn-primary"  [disabled]="cargo.assigned">Assign</button>
                       </td>
                   </tr>
               </tbody>
           </table>
       </div>
   </div>
-  
+ 
 </div>
-
-
+ 
+ 
 <div class="modal fade" id="driverModal" tabindex="-1" aria-labelledby="driverModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -171,9 +170,9 @@
           <select [(ngModel)]="assignModel.driverId"  class="form-control" name="" id="">
             <option value="null">Choose Driver</option>
              <option *ngFor="let driver of driverList" value={{driver.id}}>{{driver.name}}</option>
-            
+           
           </select>
-        
+       
           <div *ngIf="showMessage" class="alert alert-success mt-4" role="alert">
               {{responseMessage}}
             </div>
@@ -188,3 +187,4 @@
     </div>
   </div>
 </div>
+ 
